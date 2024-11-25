@@ -18,12 +18,17 @@ if __name__ == '__main__':
     username = os.getenv('TOPIN_PROD_USERNAME')
     password = os.getenv('TOPIN_PROD_PASSWORD')
 
-    #USAGE OF AUTOMATION FUNCTION TO DELETE ALL TAGS FOR QUESTION
-    topin_prod_agent = TopinProdAutomation(NxtWaveWebDriver.get_driver(True), username, password)
+    #USAGE OF AUTOMATION FUNCTION TO DELETE GIVEN TAGS FOR QUESTION
+    topin_prod_agent = TopinProdAutomation(NxtWaveWebDriver.get_driver(visible=True), username, password, CURRENT_DIR_PATH)
+
+    #REMOVING OLD RESPONSE FROM RESPONSE FILE
+    topin_prod_agent.clear_response_file()
+
+
     run_str_list_function_on_multiple_data(
         topin_prod_agent.delete_specific_question_tags,
         get_question_id_list(CURRENT_DIR_PATH),
-        ['TOPIC_QUANTITATIVE_MCQ', 'TOPIC_LOGICAL_MCQ']
+        ['TOPIC_QUANTITATIVE_NIAT_ENTRANCE_MCQ']
     )
 
     input()
