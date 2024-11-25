@@ -36,7 +36,7 @@ def get_question_id_list(path):
         raise ValueError(f"Question Id list not found!!!")
 
 
-def run_single_arg_function_on_multiple_data(f: Callable[[str], Any], data: List[str]) -> List[Any]:
+def run_str_function_on_multiple_data(f: Callable[[str], Any], data: List[str]) -> List[Any]:
     """
     Run a single-argument function on a list of string data.
 
@@ -51,6 +51,27 @@ def run_single_arg_function_on_multiple_data(f: Callable[[str], Any], data: List
     for value in tqdm(data, desc="Processing data"):
         try:
             result = f(value)
+            results.append(result)
+        except Exception as e:
+            logging.error(f"Error while processing {value}: {e}")
+    return results
+
+def run_str_list_function_on_multiple_data(f: Callable[[str, list], Any], data: List[str], fixed_argument) -> List[Any]:
+    """
+        Run a single-argument function on a list of string data and fixed list.
+
+        Parameters:
+        - f: A function that takes a string argument and a list of string then performs some action.
+        - data: A list of strings to be processed by the function.
+        - fixed_argument: A list of strings which is passed to the function in each iteration.
+
+        Returns:
+        - results: A list of results produced by the function, if applicable.
+        """
+    results = []
+    for value in tqdm(data, desc="Processing data"):
+        try:
+            result = f(value, fixed_argument)
             results.append(result)
         except Exception as e:
             logging.error(f"Error while processing {value}: {e}")
